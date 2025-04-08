@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar";
 import Breadcrumb from "./components/Breadcrumb";
+import Onboard from "./components/Onboard";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <div>
         <Navbar />
         <Breadcrumb />
+        <Onboard />
       </div>
     </>
   );
