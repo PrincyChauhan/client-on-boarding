@@ -1,8 +1,10 @@
+import Navbar from "./pages/Navbar";
+
 function App() {
   return (
     <>
       <div>
-        <h1 className="text-2xl text-red-500">Welcome to React</h1>
+        <Navbar />
       </div>
     </>
   );
