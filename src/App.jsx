@@ -1,5 +1,5 @@
-import Navbar from "./pages/Navbar";
-import Breadcrumb from "./pages/Breadcrumb";
+import Navbar from "./components/Navbar";
+import Breadcrumb from "./components/Breadcrumb";
 
 function App() {
   return (
