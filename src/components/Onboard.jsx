@@ -13,7 +13,7 @@ const Onboard = () => {
     "Hiring",
   ];
   return (
-    <div className="w-[340px] h-[2092px] bg-white p-4 border border-[#EAECF0] rounded-md">
+    <div className="w-[340px] h-[2092px] bg-white p-4 border border-[#EAECF0] rounded-md ">
       <h2 className="text-sm font-semibold text-[#475467]">ONBOARDING STEPS</h2>
 
       <ol className="space-y-3 mt-3">
@@ -24,11 +24,11 @@ const Onboard = () => {
             </span>
             <button
               className={`w-full text-left text-sm px-3 py-2 font-semibold rounded-md border 
-              ${
-                index === 0
-                  ? "border-[#7F56D9] text-[#7F56D9] bg-[#F9F5FF] shadow-sm"
-                  : "border-[#D0D5DD] text-[#344054] bg-white"
-              }`}
+                ${
+                  index === 0
+                    ? "border-[#7F56D9] text-[#7F56D9] bg-[#F9F5FF] shadow-sm"
+                    : "border-[#D0D5DD] text-[#344054] bg-white"
+                }`}
             >
               {step}
             </button>

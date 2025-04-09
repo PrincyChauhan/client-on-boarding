@@ -1,14 +1,14 @@
 import Navbar from "./components/Navbar";
 import Breadcrumb from "./components/Breadcrumb";
-import Onboard from "./components/Onboard";
 
+import OnboardingPage from "./components/OnboardingPage";
 function App() {
   return (
     <>
       <div>
         <Navbar />
         <Breadcrumb />
-        <Onboard />
+        <OnboardingPage />
       </div>
     </>
   );
