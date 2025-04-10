@@ -30,7 +30,6 @@ const FormElement = () => {
   return (
     <div className="flex bg-gray-100 p-4 gap-4">
       {/* Form building area - left side */}
-      <FormDropArea formItems={formItems} />
 
       {/* Form elements sidebar - right side */}
       <div className="w-72 bg-white border border-gray-200 rounded-md">
