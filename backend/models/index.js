@@ -1,9 +1,11 @@
 const sequelize = require("../config/db");
 const FormDraft = require("./FormDraft");
+const Client = require("./client");
 
 const db = {
   sequelize,
   FormDraft,
+  Client,
 };
 
 db.syncDatabase = async () => {
