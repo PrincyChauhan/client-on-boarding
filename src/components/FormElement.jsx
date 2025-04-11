@@ -14,7 +14,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg gap-1 w-[110px] h-[72px] bg-gray-50 "
           onClick={() => handleIconClick("name")}
         >
-          <div className="flex items-center p-1  justify-center w-10 h-10 ">
+          <div className="flex items-center p-1  justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -47,7 +47,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg gap-1 w-[110px] h-[72px] bg-gray-50 "
           onClick={() => handleIconClick("email")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -75,7 +75,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("date")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -103,7 +103,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("phone")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -129,7 +129,7 @@ const FormElement = () => {
 
         <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50">
           <div
-            className="flex items-center justify-center w-10 h-10 "
+            className="flex items-center justify-center w-10 h-10 cursor-pointer"
             onClick={() => handleIconClick("select")}
           >
             <svg
@@ -159,7 +159,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50 "
           onClick={() => handleIconClick("multiselect")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -187,7 +187,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("radio")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -215,7 +215,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("checkbox")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -243,7 +243,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50 "
           onClick={() => handleIconClick("textarea")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -270,7 +270,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("address")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -305,7 +305,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("divider")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -333,7 +333,7 @@ const FormElement = () => {
           className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
           onClick={() => handleIconClick("fileupload")}
         >
-          <div className="flex items-center justify-center w-10 h-10 ">
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -364,8 +364,11 @@ const FormElement = () => {
         SIGNATURE ELEMENTS
       </h2>
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50">
-          <div className="flex items-center justify-center w-10 h-10 ">
+        <div
+          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          onClick={() => handleIconClick("signature")}
+        >
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -388,8 +391,11 @@ const FormElement = () => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50">
-          <div className="flex items-center justify-center w-10 h-10 ">
+        <div
+          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          onClick={() => handleIconClick("initials")}
+        >
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -421,8 +427,11 @@ const FormElement = () => {
       </h2>
 
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50">
-          <div className="flex items-center justify-center w-10 h-10 ">
+        <div
+          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          onClick={() => handleIconClick("shorttext")}
+        >
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -445,8 +454,11 @@ const FormElement = () => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50">
-          <div className="flex items-center justify-center w-10 h-10 ">
+        <div
+          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          onClick={() => handleIconClick("longtext")}
+        >
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -470,8 +482,11 @@ const FormElement = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50">
-          <div className="flex items-center justify-center w-10 h-10 ">
+        <div
+          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          onClick={() => handleIconClick("list")}
+        >
+          <div className="flex items-center justify-center w-10 h-10  cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -502,8 +517,11 @@ const FormElement = () => {
         VISUAL ELEMENTS
       </h2>
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50">
-          <div className="flex items-center justify-center w-10 h-10 ">
+        <div
+          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          onClick={() => handleIconClick("image")}
+        >
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { IoIosArrowRoundUp } from "react-icons/io";
 import { TbCalendarDue } from "react-icons/tb";
 import {
   DndContext,
@@ -61,6 +62,7 @@ const ClientRequirement = () => {
   ]);
 
   const { formElements } = useFormContext();
+  const [preview, setPreview] = useState({});
 
   useEffect(() => {
     if (formElements.length > 0) {
@@ -154,14 +156,41 @@ const ClientRequirement = () => {
           newSection = {
             id: `fileupload-${Date.now()}`,
             label: "File Upload",
-            type: "file",
+            type: "fileupload",
           };
           break;
-
+        case "image":
+          newSection = {
+            id: `image-${Date.now()}`,
+            label: "Image Upload",
+            type: "image",
+          };
+          break;
+        case "shorttext":
+          newSection = {
+            id: `shortext-${Date.now()}`,
+            label: "Short Text",
+            type: "shorttext",
+          };
+          break;
+        case "longtext":
+          newSection = {
+            id: `longtext-${Date.now()}`,
+            label: "Long Text",
+            type: "longtext",
+          };
+          break;
+        case "signature": {
+          newSection = {
+            id: `signature-${Date.now()}`,
+            label: "Signature",
+            type: "image",
+          };
+          break;
+        }
         default:
           return;
       }
-
       setSections([...sections, newSection]);
     }
   }, [formElements]);
@@ -351,7 +380,7 @@ const ClientRequirement = () => {
             </label>
             <textarea
               rows="4"
-              className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc]"
+              className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none"
               placeholder="Enter details here..."
             />
           </SectionWrapper>
@@ -382,7 +411,161 @@ const ClientRequirement = () => {
             </div>
           </SectionWrapper>
         );
-
+      case "fileupload":
+        return (
+          <SectionWrapper id={section.id}>
+            <label className="block text-sm font-medium text-gray-500 mb-2">
+              {section.label}
+            </label>
+            <div className="relative w-full ml-2">
+              <input
+                type="file"
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  console.log("Uploaded file:", file);
+                }}
+              />
+              <div className="flex items-center border border-gray-300 rounded-md overflow-hidden bg-white">
+                <div className="bg-gray-00 text-white px-3 py-2 flex items-center justify-center">
+                  📄
+                </div>
+                <div className="flex-1 py-2 text-sm text-gray-700">
+                  Upload file
+                </div>
+                <div className="px-3 py-2 text-gray-500">
+                  <IoIosArrowRoundUp />
+                </div>
+              </div>
+            </div>
+          </SectionWrapper>
+        );
+      case "image":
+        return (
+          <SectionWrapper id={section.id}>
+            <label className="block text-sm font-medium text-gray-500 mb-2">
+              {section.label}
+            </label>
+            <div className="relative w-full h-50 bg-gray-50 rounded-md p-4 flex items-center justify-center">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    console.log(imageUrl);
+                    setPreview((prev) => ({
+                      ...prev,
+                      [section.id]: imageUrl,
+                    }));
+                  }
+                }}
+                className="absolute w-full h-full opacity-0 cursor-pointer"
+              />
+              {preview[section.id] ? (
+                <img
+                  src={preview[section.id]}
+                  alt="Preview"
+                  className="max-h-48 object-contain"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-12 w-12 mb-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                  <span>Click to upload image</span>
+                </div>
+              )}
+            </div>
+          </SectionWrapper>
+        );
+      case "shorttext":
+        return (
+          <SectionWrapper id={section.id}>
+            <label className="block text-sm font-medium text-gray-500 mb-2">
+              {section.label}
+            </label>
+            <textarea
+              rows="2"
+              className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none"
+              placeholder="Enter details here..."
+            />
+          </SectionWrapper>
+        );
+      case "longtext":
+        return (
+          <SectionWrapper id={section.id}>
+            <label className="block text-sm font-medium text-gray-500 mb-2">
+              {section.label}
+            </label>
+            <textarea
+              rows="5"
+              className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none"
+              placeholder="Enter details here..."
+            />
+          </SectionWrapper>
+        );
+      case "signature":
+        return (
+          <SectionWrapper id={section.id}>
+            <label className="block text-sm font-medium text-gray-500 mb-2">
+              {section.label}
+            </label>
+            <div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const signature = e.target.files[0];
+                  if (signature) {
+                    const signatureUrl = URL.createObjectURL(signature);
+                    setPreview((prev) => ({
+                      ...prev,
+                      [section.id]: signatureUrl,
+                    }));
+                  }
+                }}
+                className="absolute w-full h-full opacity-0 cursor-pointer"
+              />
+              {preview[section.id] ? (
+                <img
+                  src={preview[section.id]}
+                  alt="Preview"
+                  className="max-h-48 object-contain"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-12 w-12 mb-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                </div>
+              )}
+            </div>
+          </SectionWrapper>
+        );
       case "company":
         return (
           <SectionWrapper id={section.id}>
