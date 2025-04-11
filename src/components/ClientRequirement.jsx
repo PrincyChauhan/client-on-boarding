@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown, MdDragIndicator } from "react-icons/md";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { TbCalendarDue } from "react-icons/tb";
+import { HiDotsVertical } from "react-icons/hi";
+
 import {
   DndContext,
   closestCenter,
@@ -63,6 +65,7 @@ const ClientRequirement = () => {
 
   const { formElements } = useFormContext();
   const [preview, setPreview] = useState({});
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     if (formElements.length > 0) {
@@ -72,7 +75,7 @@ const ClientRequirement = () => {
         case "name":
           newSection = {
             id: `name-${Date.now()}`,
-            label: "Full Name",
+            label: "Name",
             type: "name",
           };
           break;
@@ -572,11 +575,38 @@ const ClientRequirement = () => {
             <label className="block text-sm font-medium text-gray-500 mb-2">
               Company Name
             </label>
-            <input
-              type="text"
-              placeholder="Enter company name"
-              className="w-[300px] px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc] cursor-pointer"
-            />
+
+            <div className="flex items-center relative">
+              <MdDragIndicator className="text-gray-400 cursor-pointer" />
+              <input
+                type="text"
+                placeholder="Enter company name"
+                className="w-[300px] px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc] cursor-pointer"
+              />
+              <HiDotsVertical
+                className="text-gray-500 cursor-pointer ml-2"
+                onClick={() => {
+                  console.log("Three dots clicked!");
+                  setShowMenu((prev) => !prev);
+                }}
+              />
+
+              {showMenu && (
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
+                  <ul className="text-sm text-gray-700">
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Google
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Microsoft
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Amazon
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </SectionWrapper>
         );
       case "industry":
