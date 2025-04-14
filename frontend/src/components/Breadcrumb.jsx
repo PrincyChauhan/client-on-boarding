@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 const Breadcrumb = () => {
@@ -14,6 +15,35 @@ const Breadcrumb = () => {
       alert("Save function not available");
     }
   };
+  const handleSaveAndNext = async () => {
+    try {
+      const draftId = 2;
+
+      if (!draftId) {
+        alert("Draft ID not found.");
+        return;
+      }
+
+      // Make the publish API request using the manually specified draftId
+      const res = await axios.post(
+        `http://localhost:3000/published/${draftId}`
+      );
+
+      const publishedData = res.data?.published || res.data;
+      console.log("Published data:", publishedData);
+      alert("Form published successfully!");
+    } catch (error) {
+      console.error(
+        "Error publishing form:",
+        error.response?.data || error.message
+      );
+      alert(
+        "Error publishing form: " +
+          (error.response?.data?.message || error.message)
+      );
+    }
+  };
+
   return (
     <div className="flex items-center justify-between px-3 py-1 border border-[#EAECF0] bg-white ">
       <div className="flex items-center space-x-3">
@@ -44,7 +74,10 @@ const Breadcrumb = () => {
         >
           Save as Draft
         </button>
-        <button className="px-4 py-2 rounded-md text-white text-sm font-medium bg-[#7F56D9] hover:bg-[#6941C6]">
+        <button
+          className="px-4 py-2 rounded-md text-white text-sm font-medium bg-[#7F56D9] hover:bg-[#6941C6]"
+          onClick={handleSaveAndNext}
+        >
           Save & Next
         </button>
       </div>

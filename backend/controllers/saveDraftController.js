@@ -12,7 +12,6 @@ const draft = async (req, res) => {
       return res.status(200).json(updatedDraft);
     } else {
       const newDraft = await FormDraft.create({ client_id, elements });
-      console.log("Draft saved:", newDraft);
       return res.status(201).json(newDraft);
     }
   } catch (error) {
