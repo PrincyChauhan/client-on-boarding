@@ -4,7 +4,7 @@ import { MdKeyboardArrowDown, MdDragIndicator } from "react-icons/md";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { TbCalendarDue } from "react-icons/tb";
 import { HiDotsVertical } from "react-icons/hi";
-
+import axios from "axios";
 import {
   DndContext,
   closestCenter,
@@ -44,7 +44,35 @@ const SectionWrapper = ({ id, children }) => {
 };
 
 const ClientRequirement = () => {
-  const [sections, setSections] = useState([
+  const clientId = 1;
+
+  const [sections, setSections] = useState([]);
+  const { formElements, saveAsDraft } = useFormContext();
+  const [preview, setPreview] = useState({});
+  const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const fetchDraft = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/get-draft/api/${clientId}`
+        );
+        const draftData = response.data;
+
+        if (draftData.length > 0 && draftData[0].elements) {
+          setSections(draftData[0].elements);
+        } else {
+          setSections(getDefaultSections());
+        }
+      } catch (error) {
+        console.error("Error fetching draft:", error);
+        setSections(getDefaultSections());
+      }
+    };
+    fetchDraft();
+  }, []);
+
+  const getDefaultSections = () => [
     { id: "company", label: "Company Name", type: "company" },
     { id: "industry", label: "Industry", type: "industry" },
     { id: "scope", label: "Project Scope", type: "scope" },
@@ -61,12 +89,7 @@ const ClientRequirement = () => {
       label: "Additional Notes or Custom Requirements",
       type: "notes",
     },
-  ]);
-
-  const { formElements, saveAsDraft } = useFormContext();
-  const [preview, setPreview] = useState({});
-  const [showMenu, setShowMenu] = useState(false);
-
+  ];
   //  Method to be passed to Breadcrumb component
   window.saveDraft = async () => {
     try {
@@ -711,269 +734,3 @@ const ClientRequirement = () => {
 };
 
 export default ClientRequirement;
-
-// import React, { useEffect, useState } from "react";
-// import { FaRegUser } from "react-icons/fa6";
-// import { MdKeyboardArrowDown, MdDragIndicator } from "react-icons/md";
-// import { IoIosArrowRoundUp } from "react-icons/io";
-// import { TbCalendarDue } from "react-icons/tb";
-// import { HiDotsVertical } from "react-icons/hi";
-// import { IoTrashOutline } from "react-icons/io5";
-
-// import {
-//   DndContext,
-//   closestCenter,
-//   useSensor,
-//   useSensors,
-//   PointerSensor,
-// } from "@dnd-kit/core";
-// import {
-//   arrayMove,
-//   SortableContext,
-//   useSortable,
-//   verticalListSortingStrategy,
-// } from "@dnd-kit/sortable";
-// import { CSS } from "@dnd-kit/utilities";
-// import { useFormContext } from "./FormContext";
-
-// const SectionWrapper = ({ id, children, onRemove }) => {
-//   const { attributes, listeners, setNodeRef, transform, transition } =
-//     useSortable({ id });
-
-//   const style = {
-//     transform: CSS.Transform.toString(transform),
-//     transition,
-//   };
-
-//   return (
-//     <div
-//       ref={setNodeRef}
-//       style={style}
-//       className="mb-1 p-2 bg-white border border-gray-100 rounded-md relative group"
-//     >
-//       <div className="flex items-center">
-//         <div
-//           className="cursor-move p-1 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
-//           {...attributes}
-//           {...listeners}
-//         >
-//           <MdDragIndicator className="size-5" />
-//         </div>
-//         <div className="flex-grow">{children}</div>
-//         <div className="flex items-center">
-//           <button
-//             className="p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-//             onClick={() => onRemove(id)}
-//           >
-//             <IoTrashOutline className="size-5" />
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// const ClientRequirement = () => {
-//   const [sections, setSections] = useState([
-//     { id: "company", label: "Company Name", type: "company" },
-//     { id: "industry", label: "Industry", type: "industry" },
-//     { id: "scope", label: "Project Scope", type: "scope" },
-//     { id: "locations", label: "Preferred Hiring Locations", type: "locations" },
-//     { id: "goals", label: "Business Goals & Objectives", type: "goals" },
-//     { id: "audience", label: "Target Audience", type: "audience" },
-//     {
-//       id: "challenges",
-//       label: "Key Challenges or Concerns",
-//       type: "challenges",
-//     },
-//     {
-//       id: "notes",
-//       label: "Additional Notes or Custom Requirements",
-//       type: "notes",
-//     },
-//   ]);
-
-//   const { formElements, saveAsDraft } = useFormContext();
-//   const sensors = useSensors(useSensor(PointerSensor));
-
-//   // Method to be passed to Breadcrumb component
-//   window.saveDraft = async () => {
-//     try {
-//       await saveAsDraft(sections);
-//       return true;
-//     } catch (error) {
-//       console.error("Error saving draft:", error);
-//       return false;
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (formElements.length > 0) {
-//       const lastElement = formElements[formElements.length - 1];
-//       let newSection;
-
-//       switch (lastElement) {
-//         case "name":
-//           newSection = {
-//             id: `name-${Date.now()}`,
-//             label: "Name",
-//             type: "text",
-//           };
-//           break;
-//         case "email":
-//           newSection = {
-//             id: `email-${Date.now()}`,
-//             label: "Email Address",
-//             type: "email",
-//           };
-//           break;
-//         case "phone":
-//           newSection = {
-//             id: `phone-${Date.now()}`,
-//             label: "Phone Number",
-//             type: "phone",
-//           };
-//           break;
-//         case "description":
-//           newSection = {
-//             id: `description-${Date.now()}`,
-//             label: "Description",
-//             type: "textarea",
-//           };
-//           break;
-//         case "image":
-//           newSection = {
-//             id: `image-${Date.now()}`,
-//             label: "Upload Image",
-//             type: "image",
-//           };
-//           break;
-//         case "select":
-//           newSection = {
-//             id: `select-${Date.now()}`,
-//             label: "Select Option",
-//             type: "select",
-//             options: ["Option 1", "Option 2", "Option 3"],
-//           };
-//           break;
-//         default:
-//           return;
-//       }
-
-//       setSections([...sections, newSection]);
-//     }
-//   }, [formElements]);
-
-//   const handleRemoveSection = (id) => {
-//     setSections(sections.filter((section) => section.id !== id));
-//   };
-
-//   const handleDragEnd = (event) => {
-//     const { active, over } = event;
-//     if (active.id !== over?.id) {
-//       const oldIndex = sections.findIndex((s) => s.id === active.id);
-//       const newIndex = sections.findIndex((s) => s.id === over?.id);
-//       setSections(arrayMove(sections, oldIndex, newIndex));
-//     }
-//   };
-
-//   const renderSection = (section) => {
-//     switch (section.type) {
-//       case "text":
-//         return (
-//           <SectionWrapper id={section.id} onRemove={handleRemoveSection}>
-//             <label className="block text-sm font-medium text-gray-500 mb-2">
-//               {section.label}
-//             </label>
-//             <div className="flex gap-2">
-//               <input
-//                 type="text"
-//                 placeholder="Enter text"
-//                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc]"
-//               />
-//             </div>
-//           </SectionWrapper>
-//         );
-
-//       case "email":
-//         return (
-//           <SectionWrapper id={section.id} onRemove={handleRemoveSection}>
-//             <label className="block text-sm font-medium text-gray-500 mb-2">
-//               {section.label}
-//             </label>
-//             <input
-//               type="email"
-//               placeholder="Enter email address"
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc]"
-//             />
-//           </SectionWrapper>
-//         );
-
-//       // Add more cases for other element types
-
-//       default:
-//         return (
-//           <SectionWrapper id={section.id} onRemove={handleRemoveSection}>
-//             <label className="block text-sm font-medium text-gray-500 mb-2">
-//               {section.label}
-//             </label>
-//             <input
-//               type="text"
-//               placeholder="Enter information"
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc]"
-//             />
-//           </SectionWrapper>
-//         );
-//     }
-//   };
-
-//   return (
-//     <div className="w-[850px] bg-white p-6 border border-gray-200 rounded-md shadow-sm mt-8">
-//       <div className="border border-[#EAECF0] rounded-md px-4 py-2 mb-4 bg-gray-50">
-//         <div className="flex items-center justify-between mb-4">
-//           <h2 className="text-sm font-semibold text-[#101828]">
-//             Client Requirements
-//           </h2>
-//           <div className="flex gap-2 items-center justify-center">
-//             <div className="flex gap-2 items-center border border-[#EAECF0] rounded-md px-2 py-1 bg-white">
-//               <FaRegUser className="size-3 text-gray-700" />
-//               <button className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-//                 Assign
-//               </button>
-//               <MdKeyboardArrowDown className="size-4 text-gray-700" />
-//             </div>
-//             <div className="flex gap-2 items-center border border-[#EAECF0] rounded-md px-2 py-1 bg-white">
-//               <TbCalendarDue className="size-3 text-gray-700" />
-//               <button className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-//                 Due Date
-//               </button>
-//             </div>
-//             <div className="flex gap-2 items-center border border-[#EAECF0] rounded-md px-2 py-1 bg-white">
-//               <TbCalendarDue className="size-3 text-gray-700" />
-//               <button className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-//                 Conditional
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       <DndContext
-//         collisionDetection={closestCenter}
-//         onDragEnd={handleDragEnd}
-//         sensors={sensors}
-//       >
-//         <SortableContext
-//           items={sections.map((s) => s.id)}
-//           strategy={verticalListSortingStrategy}
-//         >
-//           {sections.map((section) => (
-//             <div key={section.id}>{renderSection(section)}</div>
-//           ))}
-//         </SortableContext>
-//       </DndContext>
-//     </div>
-//   );
-// };
-
-// export default ClientRequirement;

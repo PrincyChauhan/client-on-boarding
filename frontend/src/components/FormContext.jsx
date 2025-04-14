@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-
+import axios from "axios";
 const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
@@ -13,7 +13,7 @@ export const FormProvider = ({ children }) => {
     try {
       // Prepare the form data
       const formData = {
-        client_id: 1, // You might want to make this dynamic
+        client_id: 1,
         elements: sections.map((section) => ({
           id: section.id,
           label: section.label,
@@ -21,24 +21,18 @@ export const FormProvider = ({ children }) => {
           ...(section.options && { options: section.options }),
         })),
       };
-
-      // Make API call
-      const response = await fetch(
+      const response = await axios.post(
         "http://localhost:3000/draft/api/save-draft",
+        formData,
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to save draft");
-      }
-
-      return await response.json();
+      // Return parsed response
+      return response.data;
     } catch (error) {
       console.error("Error saving draft:", error);
       throw error;
