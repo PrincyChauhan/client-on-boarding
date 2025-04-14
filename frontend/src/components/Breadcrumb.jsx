@@ -2,6 +2,18 @@ import React from "react";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 const Breadcrumb = () => {
+  const handleSaveAsDraft = async () => {
+    if (window.saveDraft) {
+      const success = await window.saveDraft();
+      if (success) {
+        alert("Form saved as draft successfully!");
+      } else {
+        alert("Error saving draft. Please try again.");
+      }
+    } else {
+      alert("Save function not available");
+    }
+  };
   return (
     <div className="flex items-center justify-between px-3 py-1 border border-[#EAECF0] bg-white ">
       <div className="flex items-center space-x-3">
@@ -16,7 +28,6 @@ const Breadcrumb = () => {
         </div>
 
         <IoIosArrowForward className="text-gray-400" />
-
         <div className="flex items-center space-x-1">
           <div className="w-4 h-4 rounded-full border-4 border-[#EAECF0] bg-white shadow-sm"></div>
           <span className="text-sm text-[#344054]">New</span>
@@ -27,7 +38,10 @@ const Breadcrumb = () => {
         <button className="p-2 rounded-md border border-[#D0D5DD] bg-white">
           <FaGear className="text-gray-400" />
         </button>
-        <button className="px-4 py-2 border border-[#D0D5DD] rounded-md text-[#344054] text-sm font-medium bg-white">
+        <button
+          className="px-4 py-2 border border-[#D0D5DD] rounded-md text-[#344054] text-sm font-medium bg-white"
+          onClick={handleSaveAsDraft}
+        >
           Save as Draft
         </button>
         <button className="px-4 py-2 rounded-md text-white text-sm font-medium bg-[#7F56D9] hover:bg-[#6941C6]">
