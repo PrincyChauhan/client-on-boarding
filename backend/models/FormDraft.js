@@ -20,6 +20,11 @@ const FormDraft = sequelize.define("FormDraft", {
     type: DataTypes.JSON,
     allowNull: false,
   },
+  is_draft: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1, // 1 for draft
+    comment: "1 = draft, 0 = published",
+  },
 });
 
 module.exports = FormDraft;

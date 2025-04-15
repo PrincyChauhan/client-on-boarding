@@ -11,7 +11,9 @@ const publishDraft = async (req, res) => {
     const published = await FormPublished.create({
       client_id: draft.client_id,
       elements: draft.elements,
+      status: 0,
     });
+
     console.log(published, "------------------published-----------------");
     return res.json({ message: "Draft published successfully", published });
   } catch (error) {

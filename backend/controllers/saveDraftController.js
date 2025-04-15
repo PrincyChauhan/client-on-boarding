@@ -8,10 +8,14 @@ const draft = async (req, res) => {
     }
     const existingDraft = await FormDraft.findOne({ where: { client_id } });
     if (existingDraft) {
-      const updatedDraft = await existingDraft.update({ elements });
+      const updatedDraft = await existingDraft.update({ elements, status: 1 });
       return res.status(200).json(updatedDraft);
     } else {
-      const newDraft = await FormDraft.create({ client_id, elements });
+      const newDraft = await FormDraft.create({
+        client_id,
+        elements,
+        status: 1,
+      });
       return res.status(201).json(newDraft);
     }
   } catch (error) {

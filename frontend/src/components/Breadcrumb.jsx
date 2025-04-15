@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+
 const Breadcrumb = () => {
+  const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    const savedStatus = localStorage.getItem("formStatus");
+    if (savedStatus) {
+      setStatus(savedStatus);
+    }
+  }, []);
+
   const handleSaveAsDraft = async () => {
     if (window.saveDraft) {
       const success = await window.saveDraft();
       if (success) {
+        setStatus("draft");
+        localStorage.setItem("formStatus", "draft");
         alert("Form saved as draft successfully!");
       } else {
         alert("Error saving draft. Please try again.");
@@ -15,22 +27,24 @@ const Breadcrumb = () => {
       alert("Save function not available");
     }
   };
+
   const handleSaveAndNext = async () => {
     try {
-      const draftId = 2;
+      const draftId = 1;
 
       if (!draftId) {
         alert("Draft ID not found.");
         return;
       }
 
-      // Make the publish API request using the manually specified draftId
       const res = await axios.post(
         `http://localhost:3000/published/${draftId}`
       );
-
       const publishedData = res.data?.published || res.data;
       console.log("Published data:", publishedData);
+
+      setStatus("published");
+      localStorage.setItem("formStatus", "published");
       alert("Form published successfully!");
     } catch (error) {
       console.error(
@@ -47,7 +61,7 @@ const Breadcrumb = () => {
   return (
     <div className="flex items-center justify-between px-3 py-1 border border-[#EAECF0] bg-white ">
       <div className="flex items-center space-x-3">
-        <FaArrowLeft className="h-4 w-4 ml-2 text-gray-400  cursor-pointer" />
+        <FaArrowLeft className="h-4 w-4 ml-2 text-gray-400 cursor-pointer" />
         <h1 className="font-semibold">Client On-Boarding</h1>
       </div>
 
@@ -56,7 +70,6 @@ const Breadcrumb = () => {
           <div className="w-4 h-4 rounded-full border-4 border-[#7F56D9] bg-white shadow-sm"></div>
           <span className="text-sm text-[#344054]">Create</span>
         </div>
-
         <IoIosArrowForward className="text-gray-400" />
         <div className="flex items-center space-x-1">
           <div className="w-4 h-4 rounded-full border-4 border-[#EAECF0] bg-white shadow-sm"></div>
@@ -64,7 +77,12 @@ const Breadcrumb = () => {
         </div>
       </div>
 
-      <div className=" flex items-center space-x-3">
+      <div className="flex items-center space-x-3">
+        {status && (
+          <div className="text-xs text-[#7F56D9] font-semibold">
+            Status: {status === "draft" ? "Draft" : "Published"}
+          </div>
+        )}
         <button className="p-2 rounded-md border border-[#D0D5DD] bg-white">
           <FaGear className="text-gray-400" />
         </button>

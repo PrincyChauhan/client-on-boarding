@@ -20,6 +20,11 @@ const FormPublished = sequelize.define("FormPublished", {
     type: DataTypes.JSON,
     allowNull: false,
   },
+  is_publish: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1, // 1 for published
+    comment: "1 = publish, 0 = draft",
+  },
 });
 
 module.exports = FormPublished;
