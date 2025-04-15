@@ -4,6 +4,13 @@ import { MdKeyboardArrowDown, MdDragIndicator } from "react-icons/md";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { TbCalendarDue } from "react-icons/tb";
 import { HiDotsVertical } from "react-icons/hi";
+import {
+  MdContentCopy,
+  MdArrowDownward,
+  MdArrowUpward,
+  MdDelete,
+} from "react-icons/md";
+import { BiRename } from "react-icons/bi";
 import axios from "axios";
 import {
   DndContext,
@@ -24,7 +31,7 @@ import { useFormContext } from "./FormContext";
 const SectionWrapper = ({ id, children }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
-
+  const [showDropdown, setShowDropdown] = useState(false);
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -34,11 +41,47 @@ const SectionWrapper = ({ id, children }) => {
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className="mb-1 p-2 bg-white"
+      className="mb-1 p-2 bg-white border border-gray-100 rounded-md relative"
     >
-      {children}
+      <div className="flex items-center gap-2">
+        <div
+          className="cursor-grab hover:bg-gray-100 p-1 rounded-md"
+          {...attributes}
+          {...listeners}
+        >
+          <MdDragIndicator className="size-5 text-gray-500" />
+        </div>
+        <div className="flex-1">{children}</div>
+        <div className="relative">
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="p-1 hover:bg-gray-100 rounded-md"
+          >
+            <HiDotsVertical className="size-5 text-gray-500 cursor-pointer" />
+          </button>
+          {showDropdown && (
+            <div className="absolute right-0 top-8 bg-white shadow-md rounded-md border border-gray-200 w-40 z-20">
+              <ul className="py-1 text-sm text-gray-700">
+                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <BiRename className="text-gray-500" /> Rename
+                </li>
+                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <MdContentCopy className="text-gray-500" /> Duplicate
+                </li>
+                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <MdArrowDownward className="text-gray-500" /> Move Down
+                </li>
+                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <MdArrowUpward className="text-gray-500" /> Move Up
+                </li>
+                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500">
+                  <MdDelete className="text-red-500" /> Delete
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
@@ -49,7 +92,6 @@ const ClientRequirement = () => {
   const [sections, setSections] = useState([]);
   const { formElements, saveAsDraft } = useFormContext();
   const [preview, setPreview] = useState({});
-  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const fetchDraft = async () => {
@@ -585,41 +627,23 @@ const ClientRequirement = () => {
             </label>
 
             <div className="flex items-center relative">
-              <MdDragIndicator className="text-gray-400 cursor-pointer" />
               <input
                 type="text"
                 placeholder="Enter company name"
                 className="w-[300px] px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc] cursor-pointer"
               />
-              <HiDotsVertical
-                className="text-gray-500 cursor-pointer ml-2"
-                onClick={() => {
-                  console.log("Three dots clicked!");
-                  setShowMenu((prev) => !prev);
-                }}
-              />
-
-              {showMenu && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
-                  <ul className="text-sm text-gray-700">
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      Google
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      Microsoft
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      Amazon
-                    </li>
-                  </ul>
-                </div>
-              )}
             </div>
           </SectionWrapper>
         );
       case "industry":
       case "scope":
-      case "locations":
+      case "locations": {
+        const optionsMap = {
+          industry: ["Technology", "Finance", "Healthcare", "Retail"],
+          scope: ["Recruitment", "Payroll", "Compliance", "Benefits"],
+          locations: ["India", "UK", "USA", "China"],
+        };
+
         return (
           <SectionWrapper id={section.id}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
@@ -630,21 +654,19 @@ const ClientRequirement = () => {
                 MULTI SELECT
               </p>
               <div className="space-y-2 mt-2">
-                {["Technology", "Finance", "Healthcare", "Retail"].map(
-                  (option, index) => (
-                    <div
-                      key={option}
-                      className="flex items-center border border-gray-200 rounded-md"
-                    >
-                      <span className="bg-gray-100 text-gray-700 px-4 py-2 text-sm">
-                        {index + 1}
-                      </span>
-                      <span className="text-gray-700 px-4 py-2 text-sm">
-                        {option}
-                      </span>
-                    </div>
-                  )
-                )}
+                {(optionsMap[section.id] || []).map((option, index) => (
+                  <div
+                    key={option}
+                    className="flex items-center border border-gray-200 rounded-md"
+                  >
+                    <span className="bg-gray-100 text-gray-700 px-4 py-2 text-sm">
+                      {index + 1}
+                    </span>
+                    <span className="text-gray-700 px-4 py-2 text-sm">
+                      {option}
+                    </span>
+                  </div>
+                ))}
                 <button className="border border-gray-200 rounded-md text-sm font-semibold text-gray-700 px-2 py-1">
                   Add
                 </button>
@@ -652,6 +674,7 @@ const ClientRequirement = () => {
             </div>
           </SectionWrapper>
         );
+      }
 
       case "goals":
       case "audience":
