@@ -28,7 +28,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useFormContext } from "./FormContext";
 
-const SectionWrapper = ({ id, children, onDelete }) => {
+const SectionWrapper = ({ id, children, onDelete, onMoveup, onMoveDown }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const [showDropdown, setShowDropdown] = useState(false);
@@ -41,6 +41,10 @@ const SectionWrapper = ({ id, children, onDelete }) => {
     setShowDropdown(false);
     if (action === "delete") {
       onDelete(id);
+    } else if (action === "moveup") {
+      onMoveup(id);
+    } else if (action === "movedown") {
+      onMoveDown(id);
     }
   };
 
@@ -75,10 +79,16 @@ const SectionWrapper = ({ id, children, onDelete }) => {
                 <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
                   <MdContentCopy className="text-gray-500" /> Duplicate
                 </li>
-                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                <li
+                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleAction("movedown")}
+                >
                   <MdArrowDownward className="text-gray-500" /> Move Down
                 </li>
-                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                <li
+                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleAction("moveup")}
+                >
                   <MdArrowUpward className="text-gray-500" /> Move Up
                 </li>
                 <li
@@ -125,11 +135,37 @@ const ClientRequirement = () => {
   }, []);
 
   const deleteSection = (sectionId) => {
-    // Filter out the section with the matching id
     const updatedSections = sections.filter(
       (section) => section.id !== sectionId
     );
     setSections(updatedSections);
+  };
+
+  const moveUpSection = (sectionId) => {
+    const currentIndex = sections.findIndex(
+      (section) => section.id === sectionId
+    );
+    if (currentIndex <= 0) return;
+    const newSections = [...sections];
+    [newSections[currentIndex], newSections[currentIndex - 1]] = [
+      newSections[currentIndex - 1],
+      newSections[currentIndex],
+    ];
+    setSections(newSections);
+  };
+
+  const moveDownSection = (sectionId) => {
+    const currentIndex = sections.findIndex(
+      (section) => section.id === sectionId
+    );
+    if (currentIndex >= sections.length - 1) return;
+    const newSections = [...sections];
+    [newSections[currentIndex], newSections[currentIndex + 1]] = [
+      newSections[currentIndex + 1],
+      newSections[currentIndex],
+    ];
+
+    setSections(newSections);
   };
 
   const getDefaultSections = () => [
@@ -300,7 +336,12 @@ const ClientRequirement = () => {
     switch (section.type) {
       case "name":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -316,7 +357,12 @@ const ClientRequirement = () => {
 
       case "email":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -330,7 +376,12 @@ const ClientRequirement = () => {
 
       case "date":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -343,7 +394,12 @@ const ClientRequirement = () => {
 
       case "phone":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -356,7 +412,12 @@ const ClientRequirement = () => {
         );
       case "address":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -370,7 +431,12 @@ const ClientRequirement = () => {
 
       case "select":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -391,7 +457,12 @@ const ClientRequirement = () => {
 
       case "multiselect":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -420,7 +491,12 @@ const ClientRequirement = () => {
 
       case "radio":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -445,7 +521,12 @@ const ClientRequirement = () => {
 
       case "textarea":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -458,7 +539,12 @@ const ClientRequirement = () => {
         );
       case "checkbox":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -484,7 +570,12 @@ const ClientRequirement = () => {
         );
       case "fileupload":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -513,7 +604,12 @@ const ClientRequirement = () => {
         );
       case "image":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -564,7 +660,12 @@ const ClientRequirement = () => {
         );
       case "shorttext":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -577,7 +678,12 @@ const ClientRequirement = () => {
         );
       case "longtext":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -590,7 +696,12 @@ const ClientRequirement = () => {
         );
       case "signature":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -639,7 +750,12 @@ const ClientRequirement = () => {
         );
       case "company":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               Company Name
             </label>
@@ -663,7 +779,12 @@ const ClientRequirement = () => {
         };
 
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -699,7 +820,12 @@ const ClientRequirement = () => {
       case "challenges":
       case "notes":
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -713,7 +839,12 @@ const ClientRequirement = () => {
 
       default:
         return (
-          <SectionWrapper id={section.id} onDelete={deleteSection}>
+          <SectionWrapper
+            id={section.id}
+            onDelete={deleteSection}
+            onMoveup={moveUpSection}
+            onMoveDown={moveDownSection}
+          >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
