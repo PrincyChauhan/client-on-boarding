@@ -41,7 +41,7 @@ const SectionWrapper = ({ id, children }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className="mb-1 p-2 bg-white border border-gray-100 rounded-md relative"
+      className="mb-1 p-2 bg-white  rounded-md relative"
     >
       <div className="flex items-center gap-2">
         <div
