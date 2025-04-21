@@ -28,13 +28,20 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useFormContext } from "./FormContext";
 
-const SectionWrapper = ({ id, children }) => {
+const SectionWrapper = ({ id, children, onDelete }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const [showDropdown, setShowDropdown] = useState(false);
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  };
+
+  const handleAction = (action) => {
+    setShowDropdown(false);
+    if (action === "delete") {
+      onDelete(id);
+    }
   };
 
   return (
@@ -74,7 +81,10 @@ const SectionWrapper = ({ id, children }) => {
                 <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
                   <MdArrowUpward className="text-gray-500" /> Move Up
                 </li>
-                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500">
+                <li
+                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
+                  onClick={() => handleAction("delete")}
+                >
                   <MdDelete className="text-red-500" /> Delete
                 </li>
               </ul>
@@ -113,6 +123,14 @@ const ClientRequirement = () => {
     };
     fetchDraft();
   }, []);
+
+  const deleteSection = (sectionId) => {
+    // Filter out the section with the matching id
+    const updatedSections = sections.filter(
+      (section) => section.id !== sectionId
+    );
+    setSections(updatedSections);
+  };
 
   const getDefaultSections = () => [
     { id: "company", label: "Company Name", type: "company" },
@@ -282,7 +300,7 @@ const ClientRequirement = () => {
     switch (section.type) {
       case "name":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -298,7 +316,7 @@ const ClientRequirement = () => {
 
       case "email":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -312,7 +330,7 @@ const ClientRequirement = () => {
 
       case "date":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -325,7 +343,7 @@ const ClientRequirement = () => {
 
       case "phone":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -338,7 +356,7 @@ const ClientRequirement = () => {
         );
       case "address":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -352,7 +370,7 @@ const ClientRequirement = () => {
 
       case "select":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -373,7 +391,7 @@ const ClientRequirement = () => {
 
       case "multiselect":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -402,7 +420,7 @@ const ClientRequirement = () => {
 
       case "radio":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -427,7 +445,7 @@ const ClientRequirement = () => {
 
       case "textarea":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -440,7 +458,7 @@ const ClientRequirement = () => {
         );
       case "checkbox":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -466,7 +484,7 @@ const ClientRequirement = () => {
         );
       case "fileupload":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -495,7 +513,7 @@ const ClientRequirement = () => {
         );
       case "image":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -546,7 +564,7 @@ const ClientRequirement = () => {
         );
       case "shorttext":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -559,7 +577,7 @@ const ClientRequirement = () => {
         );
       case "longtext":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -572,7 +590,7 @@ const ClientRequirement = () => {
         );
       case "signature":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -621,7 +639,7 @@ const ClientRequirement = () => {
         );
       case "company":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               Company Name
             </label>
@@ -645,7 +663,7 @@ const ClientRequirement = () => {
         };
 
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -681,7 +699,7 @@ const ClientRequirement = () => {
       case "challenges":
       case "notes":
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
@@ -695,7 +713,7 @@ const ClientRequirement = () => {
 
       default:
         return (
-          <SectionWrapper id={section.id}>
+          <SectionWrapper id={section.id} onDelete={deleteSection}>
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
             </label>
