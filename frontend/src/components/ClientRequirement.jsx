@@ -28,7 +28,14 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useFormContext } from "./FormContext";
 
-const SectionWrapper = ({ id, children, onDelete, onMoveup, onMoveDown }) => {
+const SectionWrapper = ({
+  id,
+  children,
+  onDelete,
+  onMoveup,
+  onMoveDown,
+  onDuplicate,
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const [showDropdown, setShowDropdown] = useState(false);
@@ -45,6 +52,8 @@ const SectionWrapper = ({ id, children, onDelete, onMoveup, onMoveDown }) => {
       onMoveup(id);
     } else if (action === "movedown") {
       onMoveDown(id);
+    } else if (action === "duplicate") {
+      onDuplicate(id);
     }
   };
 
@@ -76,7 +85,10 @@ const SectionWrapper = ({ id, children, onDelete, onMoveup, onMoveDown }) => {
                 <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
                   <BiRename className="text-gray-500" /> Rename
                 </li>
-                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                <li
+                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleAction("duplicate")}
+                >
                   <MdContentCopy className="text-gray-500" /> Duplicate
                 </li>
                 <li
@@ -165,6 +177,25 @@ const ClientRequirement = () => {
       newSections[currentIndex],
     ];
 
+    setSections(newSections);
+  };
+
+  const duplicateSection = (sectionId) => {
+    const sectionToDuplicate = sections.find(
+      (section) => section.id === sectionId
+    );
+    if (!sectionToDuplicate) return;
+    const duplicatedSection = {
+      ...JSON.parse(JSON.stringify(sectionToDuplicate)),
+      id: `${sectionToDuplicate.type}-${Date.now()}`,
+    };
+    const currentIndex = sections.findIndex(
+      (section) => section.id === sectionId
+    );
+
+    // Insert the duplicated section after the original
+    const newSections = [...sections];
+    newSections.splice(currentIndex + 1, 0, duplicatedSection);
     setSections(newSections);
   };
 
@@ -341,6 +372,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -362,6 +394,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -381,6 +414,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -399,6 +433,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -417,6 +452,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -436,6 +472,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -462,6 +499,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -496,6 +534,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -526,6 +565,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -544,6 +584,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -575,6 +616,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -609,6 +651,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -665,6 +708,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -683,6 +727,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -701,6 +746,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -755,6 +801,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               Company Name
@@ -784,6 +831,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -825,6 +873,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
@@ -844,6 +893,7 @@ const ClientRequirement = () => {
             onDelete={deleteSection}
             onMoveup={moveUpSection}
             onMoveDown={moveDownSection}
+            onDuplicate={duplicateSection}
           >
             <label className="block text-sm font-medium text-gray-500 mb-2">
               {section.label}
