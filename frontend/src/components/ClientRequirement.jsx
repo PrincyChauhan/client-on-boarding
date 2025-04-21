@@ -4,6 +4,8 @@ import { MdKeyboardArrowDown, MdDragIndicator } from "react-icons/md";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { TbCalendarDue } from "react-icons/tb";
 import { HiDotsVertical } from "react-icons/hi";
+import { FaPencil } from "react-icons/fa6";
+
 import {
   MdContentCopy,
   MdArrowDownward,
@@ -362,6 +364,13 @@ const ClientRequirement = () => {
       setSections(arrayMove(sections, oldIndex, newIndex));
     }
   };
+  const updateSectionLabel = (sectionId, newLabel) => {
+    setSections((prevSections) =>
+      prevSections.map((section) =>
+        section.id === sectionId ? { ...section, labelName: newLabel } : section
+      )
+    );
+  };
 
   const renderSection = (section) => {
     switch (section.type) {
@@ -374,9 +383,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -396,9 +408,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <input
               type="email"
               placeholder="Enter email address"
@@ -416,9 +431,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <input
               type="date"
               className="w-[300px] px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc] cursor-pointer"
@@ -435,9 +453,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <input
               type="tel"
               placeholder="+91234567890"
@@ -454,9 +475,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <textarea
               rows="4"
               className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none "
@@ -474,9 +498,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="ml-2">
               <select className="w-[300px] px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none">
                 <option disabled selected>
@@ -501,9 +528,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="border border-gray-300 rounded-md p-4 ml-2">
               <p className="text-gray-500 font-semibold text-sm">
                 MULTI SELECT
@@ -536,9 +566,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="ml-2 space-y-2">
               {(section.options || []).map((option, index) => (
                 <label
@@ -567,9 +600,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <textarea
               rows="4"
               className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none"
@@ -586,9 +622,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="ml-2 space-y-2">
               {section.options.map((option, index) => (
                 <div key={index} className="flex items-center space-x-2">
@@ -618,9 +657,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="relative w-full ml-2">
               <input
                 type="file"
@@ -653,9 +695,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="relative w-full h-50 bg-gray-50 rounded-md p-4 flex items-center justify-center">
               <input
                 type="file"
@@ -710,9 +755,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <textarea
               rows="2"
               className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none"
@@ -803,10 +851,25 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              Company Name
-            </label>
-
+            <div className="flex items-center mb-2">
+              <div className="flex items-center">
+                <input
+                  type="text"
+                  ref={(el) => (section.labelInputRef = el)}
+                  defaultValue={section.labelName || "Company Name"}
+                  onChange={(e) =>
+                    updateSectionLabel(section.id, e.target.value)
+                  }
+                  className="block text-sm font-medium text-gray-500 border-b border-transparent focus:border-gray-300 focus:outline-none focus:border-[#a991dc]"
+                />
+                <FaPencil
+                  className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer"
+                  onClick={() =>
+                    section.labelInputRef && section.labelInputRef.focus()
+                  }
+                />
+              </div>
+            </div>
             <div className="flex items-center relative">
               <input
                 type="text"
@@ -816,6 +879,7 @@ const ClientRequirement = () => {
             </div>
           </SectionWrapper>
         );
+
       case "industry":
       case "scope":
       case "locations": {
@@ -833,9 +897,12 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
             <div className="border border-gray-300 rounded-md p-4 ml-2">
               <p className="text-gray-500 font-semibold text-sm">
                 MULTI SELECT
@@ -875,9 +942,13 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+            </div>
+
             <textarea
               rows="5"
               placeholder={`Enter ${section.label}`}
