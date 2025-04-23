@@ -126,6 +126,7 @@ const ClientRequirement = () => {
   const [sections, setSections] = useState([]);
   const { formElements, saveAsDraft } = useFormContext();
   const [preview, setPreview] = useState({});
+  const [editingLabels, setEditingLabels] = useState({});
 
   useEffect(() => {
     const fetchDraft = async () => {
@@ -260,7 +261,7 @@ const ClientRequirement = () => {
           newSection = {
             id: `phone-${Date.now()}`,
             label: "Phone Number",
-            type: "tel",
+            type: "phone",
           };
           break;
         case "select":
@@ -366,6 +367,36 @@ const ClientRequirement = () => {
   };
 
   const renderSection = (section) => {
+    const isEditing = editingLabels[section.id]?.isEditing || false;
+    const label = editingLabels[section.id]?.label ?? section.label;
+
+    const handleLabelEdit = () => {
+      setEditingLabels((prev) => ({
+        ...prev,
+        [section.id]: { label: section.label, isEditing: true },
+      }));
+    };
+
+    const handleLabelChange = (e) => {
+      const newLabel = e.target.value;
+      setEditingLabels((prev) => ({
+        ...prev,
+        [section.id]: { ...prev[section.id], label: newLabel },
+      }));
+    };
+
+    const handleLabelBlur = () => {
+      setSections((prevSections) =>
+        prevSections.map((s) =>
+          s.id === section.id ? { ...s, label: label } : s
+        )
+      );
+      setEditingLabels((prev) => ({
+        ...prev,
+        [section.id]: { ...prev[section.id], isEditing: false },
+      }));
+    };
+
     switch (section.type) {
       case "name":
         return (
@@ -377,10 +408,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="flex gap-2">
               <input
@@ -402,10 +449,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <input
               type="email"
@@ -425,10 +488,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <input
               type="date"
@@ -447,11 +526,28 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
+
             <input
               type="tel"
               placeholder="+91234567890"
@@ -469,10 +565,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <textarea
               rows="4"
@@ -492,10 +604,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="ml-2">
               <select className="w-[300px] px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none">
@@ -522,10 +650,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="border border-gray-300 rounded-md p-4 ml-2">
               <p className="text-gray-500 font-semibold text-sm">
@@ -560,10 +704,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="ml-2 space-y-2">
               {(section.options || []).map((option, index) => (
@@ -594,10 +754,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <textarea
               rows="4"
@@ -616,11 +792,28 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
+
             <div className="ml-2 space-y-2">
               {section.options.map((option, index) => (
                 <div key={index} className="flex items-center space-x-2">
@@ -651,10 +844,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="relative w-full ml-2">
               <input
@@ -689,10 +898,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="relative w-full h-50 bg-gray-50 rounded-md p-4 flex items-center justify-center">
               <input
@@ -749,10 +974,28 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              <div className="flex items-center mb-2">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={label}
+                    onChange={handleLabelChange}
+                    onBlur={handleLabelBlur}
+                    autoFocus
+                    className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                  />
+                ) : (
+                  <>
+                    <label className="block text-sm font-medium text-gray-500">
+                      {label}
+                    </label>
+                    <FaPencil
+                      className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                      onClick={handleLabelEdit}
+                    />
+                  </>
+                )}
+              </div>
             </div>
             <textarea
               rows="2"
@@ -770,9 +1013,30 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <div className="flex items-center mb-2">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={label}
+                    onChange={handleLabelChange}
+                    onBlur={handleLabelBlur}
+                    autoFocus
+                    className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                  />
+                ) : (
+                  <>
+                    <label className="block text-sm font-medium text-gray-500">
+                      {label}
+                    </label>
+                    <FaPencil
+                      className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                      onClick={handleLabelEdit}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
             <textarea
               rows="5"
               className="w-full px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none"
@@ -789,9 +1053,30 @@ const ClientRequirement = () => {
             onMoveDown={moveDownSection}
             onDuplicate={duplicateSection}
           >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
+            <div className="flex items-center mb-2">
+              <div className="flex items-center mb-2">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={label}
+                    onChange={handleLabelChange}
+                    onBlur={handleLabelBlur}
+                    autoFocus
+                    className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                  />
+                ) : (
+                  <>
+                    <label className="block text-sm font-medium text-gray-500">
+                      {label}
+                    </label>
+                    <FaPencil
+                      className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                      onClick={handleLabelEdit}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
             <div>
               <input
                 type="file"
@@ -845,16 +1130,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-
-              <FaPencil
-                className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer"
-                onClick={() =>
-                  section.labelInputRef && section.labelInputRef.focus()
-                }
-              />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="flex items-center relative">
               <input
@@ -884,10 +1179,26 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
             <div className="border border-gray-300 rounded-md p-4 ml-2">
               <p className="text-gray-500 font-semibold text-sm">
@@ -929,36 +1240,32 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <label className="block text-sm font-medium text-gray-500">
-                {section.label}
-              </label>
-              <FaPencil className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer" />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={label}
+                  onChange={handleLabelChange}
+                  onBlur={handleLabelBlur}
+                  autoFocus
+                  className="px-1 py-0 text-sm  font-medium text-gray-500 focus:outline-none bg-transparent"
+                />
+              ) : (
+                <>
+                  <label className="block text-sm font-medium text-gray-500">
+                    {label}
+                  </label>
+                  <FaPencil
+                    className="w-4 h-4 ml-2 text-gray-500 cursor-pointer"
+                    onClick={handleLabelEdit}
+                  />
+                </>
+              )}
             </div>
 
             <textarea
               rows="5"
               placeholder={`Enter ${section.label}`}
               className="w-full border border-gray-300 rounded-lg p-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none ml-2"
-            />
-          </SectionWrapper>
-        );
-
-      default:
-        return (
-          <SectionWrapper
-            id={section.id}
-            onDelete={deleteSection}
-            onMoveup={moveUpSection}
-            onMoveDown={moveDownSection}
-            onDuplicate={duplicateSection}
-          >
-            <label className="block text-sm font-medium text-gray-500 mb-2">
-              {section.label}
-            </label>
-            <input
-              type="text"
-              placeholder={`Enter ${section.label}`}
-              className="w-[300px] px-3 py-2 border ml-2 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#a991dc] cursor-pointer"
             />
           </SectionWrapper>
         );
