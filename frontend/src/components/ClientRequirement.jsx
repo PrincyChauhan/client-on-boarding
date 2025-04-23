@@ -364,13 +364,6 @@ const ClientRequirement = () => {
       setSections(arrayMove(sections, oldIndex, newIndex));
     }
   };
-  const updateSectionLabel = (sectionId, newLabel) => {
-    setSections((prevSections) =>
-      prevSections.map((section) =>
-        section.id === sectionId ? { ...section, labelName: newLabel } : section
-      )
-    );
-  };
 
   const renderSection = (section) => {
     switch (section.type) {
@@ -852,23 +845,16 @@ const ClientRequirement = () => {
             onDuplicate={duplicateSection}
           >
             <div className="flex items-center mb-2">
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  ref={(el) => (section.labelInputRef = el)}
-                  defaultValue={section.labelName || "Company Name"}
-                  onChange={(e) =>
-                    updateSectionLabel(section.id, e.target.value)
-                  }
-                  className="block text-sm font-medium text-gray-500 border-b border-transparent focus:border-gray-300 focus:outline-none focus:border-[#a991dc]"
-                />
-                <FaPencil
-                  className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer"
-                  onClick={() =>
-                    section.labelInputRef && section.labelInputRef.focus()
-                  }
-                />
-              </div>
+              <label className="block text-sm font-medium text-gray-500">
+                {section.label}
+              </label>
+
+              <FaPencil
+                className="w-4 h-4 ml-2 size-5 text-gray-500 cursor-pointer"
+                onClick={() =>
+                  section.labelInputRef && section.labelInputRef.focus()
+                }
+              />
             </div>
             <div className="flex items-center relative">
               <input
