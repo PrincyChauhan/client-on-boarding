@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormContext } from "./FormContext";
+
 const FormElement = () => {
   const { addFormElement } = useFormContext();
+  const [clickedElement, setClickedElement] = useState(null);
+
   const handleIconClick = (elementType) => {
+    setClickedElement(elementType);
     addFormElement(elementType);
+    setTimeout(() => {
+      setClickedElement(null);
+    }, 1000);
   };
+
+  const getCardStyle = (elementType) =>
+    `flex flex-col items-center justify-center border rounded-lg gap-1 w-[110px] h-[72px] ${
+      clickedElement === elementType
+        ? "bg-gray-100 border-gray-500"
+        : "bg-gray-50 border-[#EAECF0]"
+    }`;
+
   return (
     <div className="w-[280px] h-[2092px] p-4 bg-white border border-[#EAECF0] rounded-md">
       <h2 className="text-[#475467] font-semibold text-xs">FORM ELEMENTS</h2>
 
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg gap-1 w-[110px] h-[72px] bg-gray-50 "
+          className={getCardStyle("name")}
           onClick={() => handleIconClick("name")}
         >
           <div className="flex items-center p-1  justify-center w-10 h-10 cursor-pointer">
@@ -44,7 +59,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg gap-1 w-[110px] h-[72px] bg-gray-50 "
+          className={getCardStyle("email")}
           onClick={() => handleIconClick("email")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
@@ -72,7 +87,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("date")}
           onClick={() => handleIconClick("date")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -100,7 +115,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("phone")}
           onClick={() => handleIconClick("phone")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -127,11 +142,11 @@ const FormElement = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50">
-          <div
-            className="flex items-center justify-center w-10 h-10 cursor-pointer"
-            onClick={() => handleIconClick("select")}
-          >
+        <div
+          className={getCardStyle("select")}
+          onClick={() => handleIconClick("select")}
+        >
+          <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -156,7 +171,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50 "
+          className={getCardStyle("multiselect")}
           onClick={() => handleIconClick("multiselect")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -184,7 +199,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("radio")}
           onClick={() => handleIconClick("radio")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -212,7 +227,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("checkbox")}
           onClick={() => handleIconClick("checkbox")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
@@ -240,7 +255,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50 "
+          className={getCardStyle("textarea")}
           onClick={() => handleIconClick("textarea")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
@@ -267,7 +282,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("address")}
           onClick={() => handleIconClick("address")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
@@ -302,7 +317,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("divider")}
           onClick={() => handleIconClick("divider")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -330,7 +345,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("fileupload")}
           onClick={() => handleIconClick("fileupload")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
@@ -365,7 +380,7 @@ const FormElement = () => {
       </h2>
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("signature")}
           onClick={() => handleIconClick("signature")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -392,7 +407,7 @@ const FormElement = () => {
           </div>
         </div>
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("initials")}
           onClick={() => handleIconClick("initials")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -428,7 +443,7 @@ const FormElement = () => {
 
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("shorttext")}
           onClick={() => handleIconClick("shorttext")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer">
@@ -455,7 +470,7 @@ const FormElement = () => {
           </div>
         </div>
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg  w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("longtext")}
           onClick={() => handleIconClick("longtext")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
@@ -483,7 +498,7 @@ const FormElement = () => {
         </div>
 
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("list")}
           onClick={() => handleIconClick("list")}
         >
           <div className="flex items-center justify-center w-10 h-10  cursor-pointer">
@@ -518,7 +533,7 @@ const FormElement = () => {
       </h2>
       <div className="flex flex-wrap gap-3 mt-3 justify-between">
         <div
-          className="flex flex-col items-center justify-center border border-[#EAECF0] rounded-lg w-[110px] h-[72px] bg-gray-50"
+          className={getCardStyle("image")}
           onClick={() => handleIconClick("image")}
         >
           <div className="flex items-center justify-center w-10 h-10 cursor-pointer ">
